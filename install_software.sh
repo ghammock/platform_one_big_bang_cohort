@@ -77,7 +77,7 @@ REQUIRED_PACKAGES=( sshuttle  \
                     aws       \
                     flux      \
                     sops      \
-                    kubctx)
+                    kubectx)
                     
 PACKAGES_TO_INSTALL=()
 
