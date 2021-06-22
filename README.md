@@ -1,2 +1,3 @@
-# platform_one_big_bang_cohort
+# Platform One Big Bang Cohort
+
 A small repo to aid with the Platform One Big Bang workshops
