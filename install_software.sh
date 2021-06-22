@@ -65,7 +65,7 @@ PREREQUISITES=( apt-transport-https \
                 python3-pip         \
                 unzip)
                
-echo "Installing pre-requisite software..."
+echo "Installing pre-requisite software.  Please wait..."
 apt-get install -y ${PREREQUISITES[@]} &> /dev/null
 
 REQUIRED_PACKAGES=( sshuttle  \
@@ -210,7 +210,10 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
   esac
 done
 
-echo "Check the output above to see if manual installation of any packages is necessary."
 echo ""
+echo "Check the output above to see if manual installation"
+echo "of any packages is necessary."
+echo ""
+
 exit 0
 
