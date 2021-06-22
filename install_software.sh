@@ -77,7 +77,8 @@ REQUIRED_PACKAGES=( sshuttle  \
                     aws       \
                     flux      \
                     sops      \
-                    kubectx)
+                    kubectx   \
+                    helm)
                     
 PACKAGES_TO_INSTALL=()
 
@@ -211,7 +212,15 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
         && install -o root -g root -m 755 kubectx /usr/local/bin/kubectx \
         && echo -e "    ${GREEN}kubectx installed successfully${RESET}" \
         && rm -f kubectx \
+        && . <(kubectl completion bash) \
       || echo -e "    ${RED}kubectx installation failed${RESET}"
+    ;;
+    
+    helm)
+      echo "Installing helm"
+      curl -fsL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash &> /dev/null \
+        && echo -e "    ${GREEN}Flux installed successfully${RESET}" \
+      || echo -e "    ${RED}Flux installation failed${RESET}"
     ;;
 
     *)
