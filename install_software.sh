@@ -76,7 +76,8 @@ REQUIRED_PACKAGES=( sshuttle  \
                     docker    \
                     aws       \
                     flux      \
-                    sops)
+                    sops      \
+                    kubctx)
                     
 PACKAGES_TO_INSTALL=()
 
@@ -118,7 +119,7 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
     kubectl)
       # see: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
       echo "Downloading kubectl"
-      curl -sLO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+      curl -fsLO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
         && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl \
         && echo -e "    ${GREEN}kubectl installed successfully${RESET}" \
         && rm -f kubectl \
@@ -128,7 +129,7 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
     kustomize)
       # see: https://kubectl.docs.kubernetes.io/installation/kustomize/binaries/
       echo "Downloading kustomize"
-      curl -sL "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash &> /dev/null \
+      curl -fsL "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash &> /dev/null \
         && install -o root -g root -m 0755 kustomize /usr/local/bin/kustomize \
         && echo -e "    ${GREEN}kustomize installed successfully${RESET}" \
         && rm -f kustomize \
@@ -146,7 +147,7 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
     terraform)
       # see:
       echo "Downloading terraform"
-      curl -sL -o "terraform.zip" "https://releases.hashicorp.com/terraform/1.0.0/terraform_1.0.0_linux_amd64.zip" \
+      curl -fsL -o "terraform.zip" "https://releases.hashicorp.com/terraform/1.0.0/terraform_1.0.0_linux_amd64.zip" \
         && unzip -o -qq terraform.zip \
         && install -o root -g root -m 0755 terraform /usr/local/bin/terraform \
         && rm -f terraform.zip \
@@ -178,7 +179,7 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
       echo "Downloading AWS CLI"
       # NOTE: The directory /usr/local/aws-cli/<major.minor.patch>/dist has incorrect
       # permissions (has 750, needs 755, basically only root can use it).
-      curl -sL -o "awscliv2.zip" "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" \
+      curl -fsL -o "awscliv2.zip" "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" \
         && unzip -o -qq awscliv2.zip \
         && ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli &> /dev/null \
         && chmod -R 755 /usr/local/aws-cli \
@@ -189,7 +190,7 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
     
     flux)
       echo "Downloading Flux"
-      curl -sL "https://fluxcd.io/install.sh" | bash &> /dev/null \
+      curl -fsL "https://fluxcd.io/install.sh" | bash &> /dev/null \
         && . <(flux completion bash) \
         && echo -e "    ${GREEN}Flux installed successfully${RESET}" \
       || echo -e "    ${RED}Flux installation failed${RESET}"
@@ -197,11 +198,18 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
     
     sops)
       echo "Downloading sops"
-      curl -sL -o "sops" "https://github.com/mozilla/sops/releases/download/v3.6.1/sops-v3.6.1.linux" \
+      curl -fsL -o "sops" "https://github.com/mozilla/sops/releases/download/v3.6.1/sops-v3.6.1.linux" \
         && install -o root -g root -m 0755 sops /usr/local/bin/sops \
         && echo -e "    ${GREEN}sops installed successfully${RESET}" \
         && rm -f sops \
       || echo -e "    ${RED}sops installation failed${RESET}"
+    ;;
+    
+    kubectx)
+      echo "Installing kubectx"
+      apt-get install -y kubectx &> /dev/null \
+        && echo -e "    ${GREEN}kubectx installed successfully${RESET}" \
+      || echo -e "    ${RED}kubectx installation failed${RESET}"
     ;;
 
     *)
