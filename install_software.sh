@@ -207,8 +207,10 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
     
     kubectx)
       echo "Installing kubectx"
-      apt-get install -y kubectx &> /dev/null \
+      curl -fsLO "https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx" \
+        && install -o root -g root -m 755 kubectx /usr/local/bin/kubectx \
         && echo -e "    ${GREEN}kubectx installed successfully${RESET}" \
+        && rm -f kubectx \
       || echo -e "    ${RED}kubectx installation failed${RESET}"
     ;;
 
