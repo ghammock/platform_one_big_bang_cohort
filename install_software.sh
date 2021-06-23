@@ -59,6 +59,7 @@ PREREQUISITES=( apt-transport-https \
                 ca-certificates     \
                 curl                \
                 gnupg               \
+                libnss3-tools       \
                 lsb-release         \
                 openssl             \
                 python3             \
