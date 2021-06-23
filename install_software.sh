@@ -78,7 +78,8 @@ REQUIRED_PACKAGES=( sshuttle  \
                     flux      \
                     sops      \
                     kubectx   \
-                    helm)
+                    helm      \
+                    mkcert)
                     
 PACKAGES_TO_INSTALL=()
 
@@ -221,6 +222,14 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
       curl -fsL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash &> /dev/null \
         && echo -e "    ${GREEN}Flux installed successfully${RESET}" \
       || echo -e "    ${RED}Flux installation failed${RESET}"
+    ;;
+    
+    mkcert)
+      curl -fsLO https://github.com/FiloSottile/mkcert/releases/download/v1.4.1/mkcert-v1.4.1-linux-amd64 \
+        && chmod +x mkcert-v1.4.1-linux-amd64 \
+        && mv mkcert-v1.4.1-linux-amd64 /usr/local/bin/mkcert \
+        && echo -e "    ${GREEN}mkcert installed successfully${RESET}" \
+      || echo -e "    ${RED}mkcert installation failed${RESET}"
     ;;
 
     *)
