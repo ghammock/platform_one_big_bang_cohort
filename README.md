@@ -6,13 +6,15 @@ A small repo to aid with the Platform One Big Bang workshops
 
 ### Easy way with `bash` pipe
 
-**Piping into `bash` is dangerous, make sure you understand the risks before copy and pasting code that pipes into `sudo bash`.**
+**Piping into `bash` is dangerous, make sure you understand the risks before copy and pasting code that pipes into `bash`.**
 
 After understanding what the script will do, copy and paste this command into the terminal of your choice:
 
 ```bash
-curl -sL "https://raw.githubusercontent.com/ghammock/platform_one_big_bang_cohort/main/install_software.sh" | sudo bash
+curl -sL "https://raw.githubusercontent.com/ghammock/platform_one_big_bang_cohort/main/install_software.sh" | bash
 ```
+
+The script will prompt for elevated (`sudo`) permissions, install prerequisites, and then install the necessary software.
 
 ### Alternative Installation
 
