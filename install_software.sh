@@ -33,28 +33,28 @@
 # and Debian).
 #
 
-VERSION="0.1.1"
+set -o errexit
+set -o pipefail
+set -o nounset
 
-set -eux
+export LANG=en_US.UTF-8
 
-LANG=en_US.UTF-8
+export VERSION="0.1.1"
 
-RED="\e[1;31m"
-GREEN="\e[1;32m"
-CYAN="\e[36m"
-RESET="\e[0m"
-BOLD="\e[1;4;37m"
+export RED="\e[1;31m"
+export GREEN="\e[1;32m"
+export CYAN="\e[36m"
+export RESET="\e[0m"
+export BOLD="\e[1;4;37m"
 
-ID=$(id -u)
-
-if [[ ${ID} -ne 0 ]]; then
+if [[ $(id --user) -ne 0 ]]; then
   echo -e "${CYAN}Switching to root user to install packages${RESET}"
-  sudo -E $0 $@
-  exit 0
-else
-  echo -e "${BOLD}Big Bang Cohort Software Installation (Version ${VERSION})${RESET}"
   echo ""
+  sudo -E $0 "$@"
 fi
+
+echo -e "${BOLD}Big Bang Cohort Software Installation (Version ${VERSION})${RESET}"
+echo ""
 
 PREREQUISITES=( apt-transport-https \
                 ca-certificates     \
