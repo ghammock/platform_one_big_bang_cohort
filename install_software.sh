@@ -35,7 +35,7 @@
 
 VERSION="0.1.1"
 
-set -e
+set -eux
 
 LANG=en_US.UTF-8
 
