@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # This script installs the software required by the Platform One
 # Big Bang Cohort.  You're welcome everyone.
@@ -33,9 +33,10 @@
 # and Debian).
 #
 
-VERSION="0.1.0"
+VERSION="0.1.1"
 
 set -e
+
 LANG=en_US.UTF-8
 
 RED="\e[1;31m"
@@ -65,7 +66,7 @@ PREREQUISITES=( apt-transport-https \
                 python3             \
                 python3-pip         \
                 unzip)
-               
+
 echo "Installing pre-requisite software.  Please wait..."
 apt-get install -y ${PREREQUISITES[@]} &> /dev/null
 
@@ -81,17 +82,17 @@ REQUIRED_PACKAGES=( sshuttle  \
                     kubectx   \
                     helm      \
                     mkcert)
-                    
+
 PACKAGES_TO_INSTALL=()
 
 for PKG_NAME in ${REQUIRED_PACKAGES[@]}; do
-  echo -e -n "  \u25b8  Testing ${PKG_NAME}"
+  echo -e -n "  \u25b8  Testing ${PKG_NAME}"  # Unicode U+25B8 "Black Right-pointing Small Triangle"
 
   if [[ $(command -v ${PKG_NAME} &> /dev/null; echo $?) -ne 0 ]]; then
-    echo -e " ${RED}(not installed) \u2717${RESET}"
+    echo -e " ${RED}(not installed) \u2717${RESET}"  # Unicode U+2717 "Ballot X"
     PACKAGES_TO_INSTALL+=(${PKG_NAME})
   else
-    echo -e " ${GREEN}(installed) \u2714${RESET}"
+    echo -e " ${GREEN}(installed) \u2714${RESET}"  # Unicode U+2714 "Heavy Check Mark"
   fi
 done
 
@@ -118,7 +119,7 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
         && echo -e "    ${GREEN}sshuttle installed successfully${RESET}" \
       || echo -e "    ${RED}sshuttle installation failed${RESET}"
     ;;
-    
+
     kubectl)
       # see: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
       echo "Downloading kubectl"
@@ -140,7 +141,6 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
     ;;
 
     git)
-      # see:
       echo "Installing git"
       apt-get install -y git &> /dev/null \
         && echo -e "    ${GREEN}git installed successfully${RESET}" \
@@ -148,7 +148,6 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
     ;;
 
     terraform)
-      # see:
       echo "Downloading terraform"
       curl -fsL -o "terraform.zip" "https://releases.hashicorp.com/terraform/1.0.0/terraform_1.0.0_linux_amd64.zip" \
         && unzip -o -qq terraform.zip \
@@ -158,6 +157,7 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
         && rm -f terraform \
       || echo -e "    ${RED}terraform installation failed${RESET}"
     ;;
+
     docker)
       echo "Installing docker"
       DOCKER_INSTALL_SUCCEEDED=0
@@ -170,14 +170,14 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
         && echo -e "    ${GREEN}docker installed successfully${RESET}" \
         && DOCKER_INSTALL_SUCCEEDED=1 \
       || echo -e "    ${RED}docker installation failed${RESET}"
-      
+
       if [[ ${DOCKER_INSTALL_SUCCEEDED} -eq 1 ]]; then
         echo -e "    ${CYAN}Updating user group permissions${RESET}"
         usermod -G docker -a $(logname)
         echo -e "    ${CYAN}Permissions updated${RESET} ${BOLD}(You will need to log-out and log in again)${RESET}"
       fi
     ;;
-    
+
     aws)
       echo "Downloading AWS CLI"
       # NOTE: The directory /usr/local/aws-cli/<major.minor.patch>/dist has incorrect
@@ -190,7 +190,7 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
         && rm -rf aws awscliv2.zip \
       || echo -e "    ${RED}AWS CLI installation failed${RESET}"
     ;;
-    
+
     flux)
       echo "Downloading Flux"
       curl -fsL "https://fluxcd.io/install.sh" | bash &> /dev/null \
@@ -198,7 +198,7 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
         && echo -e "    ${GREEN}Flux installed successfully${RESET}" \
       || echo -e "    ${RED}Flux installation failed${RESET}"
     ;;
-    
+
     sops)
       echo "Downloading sops"
       curl -fsL -o "sops" "https://github.com/mozilla/sops/releases/download/v3.6.1/sops-v3.6.1.linux" \
@@ -207,7 +207,7 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
         && rm -f sops \
       || echo -e "    ${RED}sops installation failed${RESET}"
     ;;
-    
+
     kubectx)
       echo "Installing kubectx"
       curl -fsLO "https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx" \
@@ -217,15 +217,16 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
         && . <(kubectl completion bash) \
       || echo -e "    ${RED}kubectx installation failed${RESET}"
     ;;
-    
+
     helm)
       echo "Installing helm"
       curl -fsL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash &> /dev/null \
         && echo -e "    ${GREEN}Flux installed successfully${RESET}" \
       || echo -e "    ${RED}Flux installation failed${RESET}"
     ;;
-    
+
     mkcert)
+      echo "Installing mkcert"
       curl -fsLO https://github.com/FiloSottile/mkcert/releases/download/v1.4.1/mkcert-v1.4.1-linux-amd64 \
         && chmod +x mkcert-v1.4.1-linux-amd64 \
         && mv mkcert-v1.4.1-linux-amd64 /usr/local/bin/mkcert \
@@ -245,4 +246,3 @@ echo "of any packages is necessary."
 echo ""
 
 exit 0
-
