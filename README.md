@@ -27,6 +27,27 @@ sudo ./install_software.sh
 
 If you forget to run the script with `sudo` or root access, it will prompt you to elevate the script permissions.
 
-### Limitations
+### Screenshots
+
+#### Piping into bash
+
+![Installation Step 0](assets/img/installation_0.png)
+
+#### Installing the software
+
+![Installing the software](assets/img/installation_1.png)
+
+#### All software installed successfully
+
+![All software installed successfully](assets/img/installation_2.png)
+
+## Limitations
 
 The script is currently written to work with `apt`-based Linux distributions (e.g. Ubuntu and Debian).  I'm working on the mods for `dnf`-based distributions (e.g. CentOS and RedHat/RHEL).
+
+## F.A.Q.s
+
+**Q**. Why does `sshuttle` fail to install?
+**A**. I don't know.  This is something to do with the first installation of `python3-pip` where `pip3`
+throws an error and refuses to install `sshuttle` (as in the second screenshot).  Re-running the script
+seems to fix the error though.
