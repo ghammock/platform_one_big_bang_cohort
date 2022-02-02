@@ -39,7 +39,7 @@ set -o nounset
 
 export LANG=en_US.UTF-8
 
-export VERSION="0.1.1"
+export VERSION="0.2.0"
 
 export RED="\e[1;31m"
 export GREEN="\e[1;32m"
@@ -179,7 +179,7 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
     ;;
 
     aws)
-      echo "Downloading AWS CLI"
+      echo "Downloading aws-cli"
       # NOTE: The directory /usr/local/aws-cli/<major.minor.patch>/dist has incorrect
       # permissions (has 750, needs 755, basically only root can use it).
       curl -fsL -o "awscliv2.zip" "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" \
@@ -192,7 +192,7 @@ for PKG_NAME in ${PACKAGES_TO_INSTALL[@]}; do
     ;;
 
     flux)
-      echo "Downloading Flux"
+      echo "Downloading flux"
       curl -fsL "https://fluxcd.io/install.sh" | bash &> /dev/null \
         && . <(flux completion bash) \
         && echo -e "    ${GREEN}Flux installed successfully${RESET}" \
